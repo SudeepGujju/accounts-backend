@@ -1,0 +1,10 @@
+# dependencies
+node_modules
+
+# IDE - VSCode
+.vscode
+
+temp/*
+logs/*
+.gitignore
+.git

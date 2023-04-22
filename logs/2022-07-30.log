@@ -1,0 +1,4 @@
+{"level":"info","message":"Http Server started on port 8000."}
+{"level":"info","message":"Mongoose disconnected"}
+{"level":"info","message":"Http Server started on port 8000."}
+{"level":"info","message":"Mongoose connected to mongodb://viswa:V!$w%402626@35.154.167.61:27000/accounts?authSource=admin"}
