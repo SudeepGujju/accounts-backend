@@ -44,12 +44,12 @@ const invoiceSchema = new Schema({
         type: String,
         // minlength: 2,
         maxlength: 15,
-        validate: {
-            validator: function(val){
-                return val.length >= 2 || val.length === 0
-            },
-            message: () => 'gst cannot be less than 2 characters'
-        }
+        // validate: {
+        //     validator: function(val){
+        //         return val.length >= 2 || val.length === 0
+        //     },
+        //     message: () => 'gst cannot be less than 2 characters'
+        // }
     },
     invcAmt:{
         type: Number,
@@ -152,7 +152,7 @@ const invoiceJoiSchema = (minDate, maxDate) => {
         code: Joi.string().allow(''),
         name: Joi.string().allow('').max(100),
         town: Joi.string().allow('').max(100),
-        gst: Joi.string().allow('').min(2).max(15),
+        gst: Joi.string().allow('').max(15),//.min(2)
         invcAmt: Joi.number().default(0.00),
         taxAmt: Joi.number().default(0.00),
         gstAmt: Joi.number().default(0.00),

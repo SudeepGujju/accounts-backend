@@ -53,18 +53,42 @@ router.get("/", async function (req, res) {
 
 });
 
+router.delete("/allInvoices", async function (req, res) {
+
+    try {
+
+        const { userId } = req.query;
+
+        if(!userId){
+            return res.status(400).send("Invalid/Missing user Id");
+        }
+
+        const invoices = await InvoiceModel.deleteMany({userId: userId});
+
+        if (invoices.deletedCount == 0)
+            return res.status(200).send('No invoices to delete');
+
+        return res.status(200).send("Invoices deleted successfully");
+    }
+    catch (ex) {
+        console.log(ex)
+        const error = parseError(ex);
+        return res.status(error.code).send(error.message);
+    }
+
+});
+
 router.delete("/:id", async function (req, res) {
 
     try {
-        const transaction = await InvoiceModel.findOneAndRemove({_id: req.params.id});
+        const invoice = await InvoiceModel.findOneAndRemove({_id: req.params.id});
 
-        if (!transaction)
-            return res.status(404).send('Transaction with given id not found');
+        if (!invoice)
+            return res.status(404).send('Invoice with given id not found');
 
-        return res.status(200).send("Transaction deleted successfully");
+        return res.status(200).send("Invoice deleted successfully");
     }
     catch (ex) {
-        
         const error = parseError(ex);
         return res.status(error.code).send(error.message);
     }
