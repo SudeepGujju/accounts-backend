@@ -1,21 +1,22 @@
 const moment = require('moment');
+const { InvalidDateFormatError } = require('./error');
 
 function parseCSVDate(date) {
 
     try{
         if (!date) {
-            throw Error('Invalid argument');
+            throw InvalidDateFormatError('Invalid date');
         }
     
         let momentDate = moment(date + " +05:30", 'DD-MMM-YYYY ZZ', true);
     
         if (!momentDate.isValid()) {
-            throw Error('Invalid date string');
+            throw InvalidDateFormatError('Invalid date');
         }
     
         return momentDate.toDate();
     }catch(err){
-        throw Error('Invalid date string');
+        throw InvalidDateFormatError('Invalid date');
     }
 }
 

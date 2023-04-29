@@ -25,7 +25,7 @@ const userDataCleanUpListener = async (userId) => {
     try {
       let user = await UserModel.findById(userId).lean();
 
-      console.log(user)
+      console.log(`Cleanup of user started: ${user.username} ${user.userId}`);
 
       if (!user.dataClean.bankTransaction) {
         //   session.startTransaction();

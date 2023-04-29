@@ -1,4 +1,4 @@
-const { parseError, InvalidFileFormatError } = require("./error");
+const { parseError, InvalidFileFormatError, InvalidDateFormatError } = require("./error");
 const {
   getParsedSchemaToken,
 } = require("./token");
@@ -14,6 +14,7 @@ module.exports = {
   readCSVFile,
   parseError,
   InvalidFileFormatError,
+  InvalidDateFormatError,
   getParsedSchemaToken,
   validateRefId,
   validateRefFld,

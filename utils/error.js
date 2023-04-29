@@ -8,6 +8,13 @@ class InvalidFileFormatError extends Error{
     }
 }
 
+class InvalidDateFormatError extends Error{
+    constructor(message){
+        super(message);
+        this.name = this.constructor.name;
+    }
+}
+
 module.exports.parseError = function(ex){
 
     const error = {code: 500, message: "Internal server error"};
@@ -33,6 +40,11 @@ module.exports.parseError = function(ex){
         error.code = 400;
         error.message = ex.message;
     }
+    else if(ex instanceof InvalidDateFormatError)
+    {
+        error.code = 400;
+        error.message = ex.message;
+    }
     else if(ex instanceof TypeError || ex instanceof ReferenceError || ex instanceof RangeError)
     {
         console.log(ex);
@@ -45,4 +57,5 @@ module.exports.parseError = function(ex){
     return error;
 }
 
-// module.exports.InvalidFileFormatError = InvalidFileFormatError;
+module.exports.InvalidFileFormatError = InvalidFileFormatError;
+module.exports.InvalidDateFormatError = InvalidDateFormatError;
