@@ -27,9 +27,9 @@ router.get("/", async function (req, res) {
 
         const { invcType, fromDate, toDate } = req.query;
 
-        if(!invcType && !fromDate && !toDate){
-            return res.status(400).send("Invalid/Missing record filters");
-        }
+        // if(!invcType && !fromDate && !toDate){
+        //     return res.status(400).send("Invalid/Missing record filters");
+        // }
 
         const query = { userId: req.user._id };
 

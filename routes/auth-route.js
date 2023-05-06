@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const { ActiveUserModel, validateLoginData, UserModel, UserStatus } = require('../models');
-const { parseError, getParsedSchemaToken } = require('../utils');
+const { parseError, getParsedSchemaToken, parseUIDate } = require('../utils');
 const jwt = require("jsonwebtoken");
 const crypto = require('crypto');
 const { TOKEN_ALGORITHM, TOKEN_VALIDITY, TOKEN_PUBLIC_KEY, TOKEN_PRIVATE_KEY } = require('../constants');
@@ -36,8 +36,21 @@ router.post("/login", async function(req, res){
 			userType: user.userType
 		};
 
-		userDetails.finYearStart = new Date(parseInt(user.finYear.split('-')[0], 10), 3, 1, 0, 0, 0, 0);
-		userDetails.finYearEnd = new Date(parseInt(user.finYear.split('-')[1], 10), 2, 31, 23, 59, 59, 999);
+		let finYearStart = parseUIDate(user.finYearStart);
+		let finYearEnd = parseUIDate(user.finYearEnd);
+
+		finYearStart.setHours(0);
+		finYearStart.setMinutes(0);
+		finYearStart.setSeconds(0);
+		finYearStart.setMilliseconds(0);
+
+		finYearEnd.setHours(23);
+		finYearEnd.setMinutes(59);
+		finYearEnd.setSeconds(59);
+		finYearEnd.setMilliseconds(999);
+
+		userDetails.finYearStart = finYearStart;
+		userDetails.finYearEnd = finYearEnd;
 
 		let {accessToken, refreshToken} = generateTokens(user._id);
 

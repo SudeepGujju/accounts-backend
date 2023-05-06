@@ -39,7 +39,11 @@ const userSchema = new Schema({
             message: () => 'phone cannot be less than 10 numbers'
         }
     },
-    finYear:{
+    finYearStart:{
+        type: String,
+        required: true
+    },
+    finYearEnd:{
         type: String,
         required: true
     },
@@ -72,7 +76,8 @@ const userJoiSchema = Joi.object({
     loginID: Joi.string().min(3).max(15).required(),
     phone: Joi.string().allow('').min(10).max(10),
     password: Joi.string().min(7).max(15).required(),
-    finYear: Joi.string().required(),
+    finYearStart: Joi.string().required(),
+    finYearEnd: Joi.string().required(),
     status: Joi.number().required().valid(UserStatus.Active, UserStatus.Inactive, UserStatus.Deleted)
 });
 

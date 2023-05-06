@@ -7,7 +7,7 @@ const { validateRefId, validateRefFld } = require('./model-validators');
 
 const { deleteFile,  readCSVFile } = require('./file');
 
-const { parseCSVDate, formatUIDate } = require('./format');
+const { parseCSVDate, formatUIDate, parseUIDate } = require('./format');
 
 module.exports = {
   deleteFile,
@@ -19,5 +19,6 @@ module.exports = {
   validateRefId,
   validateRefFld,
   parseCSVDate,
-  formatUIDate
+  formatUIDate,
+  parseUIDate
 };

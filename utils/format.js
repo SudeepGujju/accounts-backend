@@ -13,7 +13,7 @@ function parseCSVDate(date) {
         if (!momentDate.isValid()) {
             throw new InvalidDateFormatError('Invalid date');
         }
-    
+
         return momentDate.toDate();
     }catch(err){
         throw new InvalidDateFormatError('Invalid date');
@@ -21,9 +21,11 @@ function parseCSVDate(date) {
 }
 
 function formatUIDate(date){
-    
     return moment(date).format("DD/MM/YYYY");
-
 }
 
-module.exports = {parseCSVDate, formatUIDate};
+function parseUIDate(dateString){
+    return moment(dateString, "DD/MM/YYYY").toDate();
+}
+
+module.exports = {parseCSVDate, formatUIDate, parseUIDate};
