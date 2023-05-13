@@ -5,17 +5,25 @@ const { USERS_COLLECTION_NAME } = require('../constants');
 const UserStatus = Object.freeze({ Active: 1, Inactive: 2, Deleted: 3 });
 const UserType = Object.freeze({ Admin: 1, User: 2 });
 
+const Page = Object.freeze({
+    Group : 1,
+    Account : 2,
+    Bank_Transaction : 3,
+    Transaction : 4,
+    GSTR2 : 5
+});
+
 const userSchema = new Schema({
     username:{
         type: String,
-        minlength: 3,
+        minlength: [3, 'username cannot be less than 3 characters'],
         maxlength: 30,
         required: true,
         uppercase: true
     },
     loginID: {
         type: String,
-        minlength: 3,
+        minlength: [3, 'username cannot be less than 3 characters'],
         maxlength: 15,
         required: true,
         unique: true,
@@ -24,7 +32,7 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        minlength: 7,
+        minlength: [7, 'password cannot be less than 7 characters'],
         maxlength: 1024,
         required: true
     },
@@ -58,6 +66,19 @@ const userSchema = new Schema({
         required: true,
         default: UserType.User
     },
+    pageAccess: {
+        type: [Number],
+        required: true,
+        enum: [[Page.Group, Page.Account, Page.Bank_Transaction, Page.Transaction, Page.GSTR2], 'given invalid page access'],
+        minlength: 1,
+        // validate: v => Array.isArray(v) && v.length > 0,
+        validate: {
+            validator: function(val){
+                return (Array.isArray(val) && val.length > 0)
+            },
+            message: () => 'atleast one page access must be given'
+        }
+    },
     dataClean:{
         type: Object,
         default: {
@@ -78,7 +99,8 @@ const userJoiSchema = Joi.object({
     password: Joi.string().min(7).max(15).required(),
     finYearStart: Joi.string().required(),
     finYearEnd: Joi.string().required(),
-    status: Joi.number().required().valid(UserStatus.Active, UserStatus.Inactive, UserStatus.Deleted)
+    status: Joi.number().required().valid(UserStatus.Active, UserStatus.Inactive, UserStatus.Deleted),
+    pageAccess: Joi.array().required().min(1).items(Joi.number().label('page access').valid(Page.Group, Page.Account, Page.Bank_Transaction, Page.Transaction, Page.GSTR2))
 });
 
 function validateUserData(data) {

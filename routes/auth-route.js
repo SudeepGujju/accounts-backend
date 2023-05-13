@@ -33,7 +33,8 @@ router.post("/login", async function(req, res){
 			finYearStart: user.finYearStart,
 			finYearEnd: user.finYearEnd,
 			_id: user._id,
-			userType: user.userType
+			userType: user.userType,
+			pageAccess: user.pageAccess
 		};
 
 		let finYearStart = parseUIDate(user.finYearStart);
