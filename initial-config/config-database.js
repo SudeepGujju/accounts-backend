@@ -2,13 +2,16 @@ const mongoose = require("mongoose");
 const { logger } = require("./config-logger");
 
 module.exports = async function () {
-  const { DB_URL, APP_NAME } = process.env;
+  const { DB_URL, APP_NAME, INVOICES_FILE_BUCKET_NAME } = process.env;
 
   try {
     const db = mongoose.connection;
 
     db.on("connected", function () {
       logger.info("Mongoose connected to " + DB_URL);
+
+      new mongoose.mongo.GridFSBucket(db,{bucketName: INVOICES_FILE_BUCKET_NAME});
+
     });
 
     db.on("error", function (err) {

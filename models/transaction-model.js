@@ -27,7 +27,7 @@ const transactionSchema = new Schema({
 
 				return validateRefFld(vUserId, model(ACCOUNTS_COLLECTION_NAME), 'code', v);
 			},
-            message: props => { console.log(props); return `${props.value} is not a valid account`}
+            message: props => { return `${props.value} is not a valid account`}
 		}
     },
     toAcc: {
@@ -49,7 +49,7 @@ const transactionSchema = new Schema({
 
 				return validateRefFld(vUserId, model(ACCOUNTS_COLLECTION_NAME), 'code', v);
 			},
-            message: props => { console.log(props); return `${props.value} is not a valid account`}
+            message: props => { return `${props.value} is not a valid account`}
 		}
     },
     desc: {

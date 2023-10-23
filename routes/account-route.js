@@ -2,7 +2,7 @@ const router = require('express').Router();
 const path = require('path');
 const { AccountModel, validateAccountData } = require('../models');
 const { parseError, readCSVFile, deleteFile } = require('../utils');
-const { fileUploadHandler } = require('../middlewares');
+const { diskFileUpload } = require('../middlewares');
 
 router.get("/dropdown", async function (req, res) {
 
@@ -142,7 +142,7 @@ router.delete("/:id", async function (req, res) {
 
 });
 
-router.post("/upload", fileUploadHandler().single('file'), async function(req, res){
+router.post("/upload", diskFileUpload().single('file'), async function(req, res){
 
     try{
         if(!req.file)

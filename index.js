@@ -19,7 +19,6 @@ require("./initial-config/config-database")();
 
 require("./initial-config/config-routes")(app);
 
-
 const server = http.createServer(app);
 
 server.listen(process.env.PORT, () => {

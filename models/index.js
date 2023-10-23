@@ -5,7 +5,7 @@ const { AccountModel, validateAccountData } = require("./account-model");
 const { TransactionModel, validateTransactionData } = require("./transaction-model");
 const { InvoiceModel, validateInvoiceData, InvoiceType } = require("./invoice-model");
 const { BankTransactionModel, validateBankTransactionData } = require("./bankTransaction-model");
-
+const { InventoryModel, validateInventoryData, InventoryType, CashRCredit } = require("./inventory-model");
 
 module.exports = {
   UserModel,
@@ -25,5 +25,9 @@ module.exports = {
   validateInvoiceData,
   InvoiceType,
   BankTransactionModel,
-  validateBankTransactionData
+  validateBankTransactionData,
+  InventoryModel,
+  validateInventoryData,
+  InventoryType,
+  CashRCredit,
 };
