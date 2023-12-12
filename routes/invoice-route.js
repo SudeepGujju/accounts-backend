@@ -25,7 +25,7 @@ router.get("/", async function (req, res) {
 
     try {
 
-        const { invcType, fromDate, toDate } = req.query;
+        const { invcType, fromDate, toDate, summary } = req.query;
 
         // if(!invcType && !fromDate && !toDate){
         //     return res.status(400).send("Invalid/Missing record filters");
@@ -34,14 +34,57 @@ router.get("/", async function (req, res) {
         const query = { userId: req.user._id };
 
         if(invcType)
-            query.invcType = invcType;
+            query.invcType = +invcType;
 
         if(fromDate && toDate)
-            query.invcDate = { $gte: fromDate, $lte: toDate};
+            query.invcDate = { $gte: new Date(fromDate), $lte: new Date(toDate) };
         else if(fromDate || toDate)
-            query.invcDate = fromDate || toDate;
+            query.invcDate = new Date(fromDate) || new Date(toDate);
 
-        const invoices = await InvoiceModel.find(query);
+        let invoices = [];
+
+        if(summary){
+            invoices = await InvoiceModel.aggregate([
+                {$match: query},
+                {
+                    $group: {
+                        _id: null,
+                        invcAmt: { $sum: '$invcAmt' },
+                        taxAmt: { $sum: '$taxAmt' },
+                        gstAmt: { $sum: '$gstAmt' },
+                        amt5: { $sum: '$amt5' },
+                        amt12: { $sum: '$amt12' },
+                        amt18: { $sum: '$amt18' },
+                        amt28: { $sum: '$amt28' },
+                        amt0: { $sum: '$amt0' },
+                        igst: { $sum: '$igst' },
+                        cgst: { $sum: '$cgst' },
+                        sgst: { $sum: '$sgst' }
+                    }
+                },
+                {
+                    $set: {
+                        invcType: '',
+                        invcNo: '',
+                        mode: '',
+                        invcDate: null,
+                        cr: '',
+                        code: '',
+                        name: '',
+                        town: '',
+                        gst: '',
+                        remarks: '',
+                        month: '',
+                        st: '',
+                        igst: '',
+                        cgst: '',
+                        sgst: ''
+                    }
+                }
+            ]).allowDiskUse(true);
+        }else{
+            invoices = await InvoiceModel.find(query);
+        }
 
         return res.status(200).send(invoices);
     }
