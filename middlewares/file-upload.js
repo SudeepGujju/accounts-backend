@@ -9,7 +9,7 @@ const { FileFormats } = require("../constants");
 function diskFileUpload(
   config = {
     destinationPath: process.env.APP_BASE_PATH + process.env.TEMP_PATH,
-    keepFileName: true,
+    persistFileName: true,
     allowedFiles: [FileFormats.CSV, FileFormats.XLS],
     uploadToUserFolder: false,
   }
@@ -17,7 +17,7 @@ function diskFileUpload(
 
   let filename = null;
 
-  if (config.keepFileName) {
+  if (config.persistFileName) {
     filename = function (req, file, cb) {
       cb(null, file.originalname);
     };
@@ -56,7 +56,7 @@ function diskFileUpload(
 function dbFileUpload(
   config = {
     destinationBucket: "fs",
-    keepFileName: true,
+    persistFileName: true,
     allowedFiles: [FileFormats.CSV, FileFormats.XLS],
   }
 ) {
@@ -67,7 +67,7 @@ function dbFileUpload(
     cache: true,
     file: (req, file) => {
       return new Promise((resolve, reject) => {
-        if (config.keepFileName) {
+        if (config.persistFileName) {
 
           const fileInfo = {
             filename: file.originalname,
