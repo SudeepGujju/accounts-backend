@@ -21,6 +21,62 @@ router.get("/download-sample", async function (req, res) {
     }
 });
 
+router.get("/unique-months", async function (req, res) {
+
+    try {
+
+        const query = { userId: req.user._id };
+
+        let invoiceMonths = {};
+
+        let records = await InvoiceModel.aggregate([
+            {$match: query},
+            {
+                $group: {
+                    _id: '$invcType',
+                    months: { $addToSet: '$month' }
+                }
+            }
+        ]).allowDiskUse(true);
+
+        records.forEach(e => {
+            invoiceMonths[e._id] = e.months
+        });
+
+        return res.status(200).send(invoiceMonths);
+    }
+    catch (ex) {
+        
+        const error = parseError(ex);
+        return res.status(error.code).send(error.message);
+    }
+
+});
+
+router.get("/lite", async function (req, res) {
+
+    try {
+
+        const { invcType, month } = req.query;
+
+        if(!invcType && !month){
+            return res.status(400).send("Invalid/Missing record filters");
+        }
+
+        const query = { userId: req.user._id, invcType: +invcType, month: month };
+
+        let invoices = await InvoiceModel.find(query).select('_id invcType invcNo invcDate name town month gst invcAmt');
+
+        return res.status(200).send(invoices);
+    }
+    catch (ex) {
+        
+        const error = parseError(ex);
+        return res.status(error.code).send(error.message);
+    }
+
+});
+
 router.get("/", async function (req, res) {
 
     try {

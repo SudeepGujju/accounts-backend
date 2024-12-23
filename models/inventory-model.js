@@ -182,7 +182,7 @@ function validateInventoryData(data, minDate, maxDate){
     return schema.validate(data, { stripUnknown: true });
 }
 
-const InventoryCollectionModel = mongoose.model(INVENTORIES_COLLECTION_NAME, inventoryCollectionSchema);
+const InventoryCollectionModel = model(INVENTORIES_COLLECTION_NAME, inventoryCollectionSchema);
 
 module.exports.validateInventoryData = validateInventoryData;
 module.exports.InventoryModel = InventoryCollectionModel;
