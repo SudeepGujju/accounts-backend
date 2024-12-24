@@ -65,7 +65,7 @@ router.get("/lite", async function (req, res) {
 
         const query = { userId: req.user._id, invcType: +invcType, month: month };
 
-        let invoices = await InvoiceModel.find(query).select('_id invcType invcNo invcDate name town month gst invcAmt');
+        let invoices = await InvoiceModel.find(query).select('_id invcType invcNo invcDate name town month gst invcAmt gstAmt');
 
         return res.status(200).send(invoices);
     }
