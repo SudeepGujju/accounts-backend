@@ -21,7 +21,7 @@ function parseCSVDate(date) {
 }
 
 function formatUIDate(date){
-    return moment(date).format("DD/MM/YYYY");
+    return moment(date).format("DD/MM/YYYY");//Formatting the date as per server timezone
 }
 
 function parseUIDate(dateString){

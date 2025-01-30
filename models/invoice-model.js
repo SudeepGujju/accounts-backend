@@ -137,9 +137,9 @@ invoiceSchema.virtual('loginId', {
     get: (d) => { return d && d.loginID  } //check the object and then use field. Error occurs if populate is not called on the model while querying data
 });
 
-invoiceSchema.virtual('invcDateUI').get(function(){
-    return formatUIDate(this.invcDate);
-})
+// invoiceSchema.virtual('invcDateUI').get(function(){
+//     return formatUIDate(this.invcDate);
+// });
 
 const invoiceJoiSchema = (minDate, maxDate) => {
     return Joi.object({

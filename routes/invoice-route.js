@@ -65,7 +65,7 @@ router.get("/lite", async function (req, res) {
 
         const query = { userId: req.user._id, invcType: +invcType, month: month };
 
-        let invoices = await InvoiceModel.find(query).select('_id invcType invcNo invcDate name town month gst invcAmt gstAmt');
+        let invoices = await InvoiceModel.find(query).select('_id invcType invcNo invcDate name town month gst invcAmt gstAmt').sort('invcDate');
 
         return res.status(200).send(invoices);
     }
@@ -139,7 +139,7 @@ router.get("/", async function (req, res) {
                 }
             ]).allowDiskUse(true);
         }else{
-            invoices = await InvoiceModel.find(query);
+            invoices = await InvoiceModel.find(query).sort('invcDate');
         }
 
         return res.status(200).send(invoices);
